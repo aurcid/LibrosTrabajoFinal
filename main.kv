@@ -1,0 +1,388 @@
+<LoginScreen>:
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        
+        MDWidget:
+            size_hint_y: 0.2
+
+        MDCard:
+            size_hint: None, None
+            size: "300dp", "400dp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            elevation: 0.3
+            padding: "24dp"
+            spacing: 0
+            radius: 3
+            orientation: 'vertical'
+
+            MDLabel:
+                text: "LOGIN"
+                halign: "center"
+                font_size: "32sp"
+                size_hint: 1, None
+                height: "75dp"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+            MDTextField:
+                id: user
+                hint_text: "Usuario"
+                icon_left: "account"
+                size_hint_x: 1
+                font_size: "18sp"
+                pos_hint: {"center_x": 0.5}
+                write_tab: False
+
+            MDTextField:
+                id: password
+                hint_text: "Contraseña"
+                icon_left: "key"
+                password: True
+                size_hint_x: 1
+                font_size: "18sp"
+                pos_hint: {"center_x": 0.5}
+                write_tab: False
+            
+
+            MDLabel:
+                id: messages
+                text: ""
+                theme_text_color: "Error"
+
+            MDAnchorLayout:
+                MDFlatButton:
+                    text: "INGRESAR"
+                    size_hint: 0.5, None
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    md_bg_color: "purple"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    on_press: root.login()
+
+            MDWidget:
+                size_hint_y: None
+                height: 1
+
+            MDAnchorLayout:
+                MDRectangleFlatButton:
+                    text: "Nueva Cuenta"
+                    size_hint: 0.5, None
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    on_press: root.show_new_account_screen()
+                    
+                    
+            MDWidget:
+                size_hint_y: None
+                height: "10dp"
+        
+        MDWidget:
+            size_hint_y: 0.2
+
+<NewAccountScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDIconButton:
+            icon: "arrow-left"
+            icon_size: "32sp"
+            size_hint: None, None
+            pos_hint: {'left': 1, 'center_y': 0.5}
+            on_press: root.show_login_screen()
+        
+        MDWidget:
+            size_hint_y: 0.2
+
+        MDCard:
+            size_hint: None, None
+            size: "300dp", "500dp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            elevation: 0.3
+            padding: "24dp"
+            spacing: 0
+            radius: 3
+            orientation: 'vertical'
+
+            MDLabel:
+                text: "Crear Cuenta"
+                halign: "center"
+                font_size: "32sp"
+                size_hint: 1, None
+                height: "75dp"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+            MDTextField:
+                id: new_user
+                hint_text: "Usuario"
+                icon_left: "account"
+                size_hint_x: 1
+                font_size: "18sp"
+                pos_hint: {"center_x": 0.5}
+                write_tab: False
+
+            MDTextField:
+                id: new_user_password
+                hint_text: "Contraseña"
+                icon_left: "key"
+                password: True
+                size_hint_x: 1
+                font_size: "18sp"
+                pos_hint: {"center_x": 0.5}
+                write_tab: False
+
+            MDTextField:
+                id: nombre
+                hint_text: "Nombre"
+                icon_left: "account"
+                size_hint_x: 1
+                font_size: "18sp"
+                pos_hint: {"center_x": 0.5}
+                write_tab: False
+
+            MDTextField:
+                id: apellido
+                hint_text: "Apellido"
+                icon_left: "account"
+                size_hint_x: 1
+                font_size: "18sp"
+                pos_hint: {"center_x": 0.5}
+                write_tab: False
+
+            MDLabel:
+                id: messages
+                text: ""
+                theme_text_color: "Error"
+
+
+            MDAnchorLayout:
+                MDFlatButton:
+                    text: "REGISTRAR"
+                    size_hint: 0.5, None
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    md_bg_color: "purple"
+                    theme_text_color: "Custom"
+                    text_color: "white"
+                    on_press: root.new_account()
+                    
+            MDWidget:
+                size_hint_y: None
+                height: "10dp"
+        
+        MDWidget:
+            size_hint_y: 0.2
+
+
+<MiCard>:
+    size_hint_x: 0.3
+    size_hint_y: None
+    size: "200dp", "300dp"
+    pos_hint: {"center_x": 0.5, "center_y": 0.5}
+    elevation: 0.6
+    spacing: 0
+    radius: [4, 4, 4, 4]
+    orientation: 'vertical'
+
+    MDSmartTile:
+        source: root.imagen
+        radius: [4, 4, 0, 0]
+        box_position: "header"
+        box_radius: [4, 4, 0, 0]
+        pos_hint: {"center_x": .5, "center_y": .5}
+        size_hint: None, None
+        size: root.width, root.height
+
+        MDLabel:
+            text: root.titulo
+            font_size: "14sp"
+            halign: 'center'
+            bold: True
+            color: 1, 1, 1, 1
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: None, None
+        size: root.width, "48dp"
+        canvas.before:
+            Color:
+                rgba: 0.3, 0.3, 0.3, 1
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [0, 0, 4, 4]
+                
+        BoxLayout:
+            Widget:
+            MDIconButton:
+                icon: "delete"
+                pos_hint: {"left": 1, "bottom": 1}
+                theme_icon_color: "Custom"
+                icon_color: "red"
+                on_release: root.eliminar_libro(root.libro_id)
+            MDIconButton:
+                icon: "pencil"
+                pos_hint: {"right": 1, "bottom": 1}
+                theme_icon_color: "Custom"
+                icon_color: "white"
+            Widget:
+    
+
+<AppScreen>:
+    # md_bg_color: "white"
+    MDScrollView:
+        # md_bg_color: app.theme_cls.primary_color
+        do_scroll_x: False
+        effect_cls: 'ScrollEffect'
+        scroll_type: ['content']
+        size_hint: 1, 1
+
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            size_hint_y: None
+            size_hint_x: 1
+            height: self.minimum_height
+            padding: "0dp"
+            spacing: "20dp"
+            # md_bg_color: "white"
+
+            MDWidget:
+                size_hint_y: None
+                height: "2dp"
+
+            MDLabel:
+                text: "LIBROS"
+                halign: "center"
+                font_size: "42sp"
+                size_hint: 1, None
+                height: "60dp"
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: ["0dp","0dp","0dp","30dp"]
+
+                MDWidget:
+                    size_hint_x: None
+                    width: "10dp"
+
+                MDRaisedButton:
+                    text: "Filtrar"
+                    md_bg_color: "blue"
+
+
+                MDWidget:
+                
+                MDRaisedButton:
+                    text: "Cerrar sesión"
+                    md_bg_color: "red"
+                    on_release: app.root.get_screen('app_screen').log_out()
+
+                MDWidget:
+                    size_hint_x: None
+                    width: "10dp"
+
+            MDBoxLayout:
+                orientation: 'horizontal'
+                size_hint_y: None
+                height: self.minimum_height
+
+                MDGridLayout:
+                    id: grid
+                    cols: max(1, int(root.width / 400) if platform == 'android' else int(root.width / 250))
+                    # md_bg_color: "white"
+                    orientation: 'lr-tb'
+                    size_hint_y: None
+                    height: self.minimum_height
+                    spacing: ("8dp", "58dp")
+                    padding: "8dp"
+
+    MDFloatingActionButton:
+        icon: "plus"
+        pos: root.width * 0.98 - self.width, root.height * 0.03
+        on_release: root.show_add_book_dialog()
+
+          
+<AddBookDialog>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: "550dp"
+    spacing: 0
+
+    MDTextField:
+        id: titulo
+        hint_text: "Titulo"
+        pos_hint: {"center_y": .4}
+        max_text_length: 50
+        write_tab: False
+
+    MDTextField:
+        id: categoria
+        hint_text: "Categoria"
+        pos_hint: {'center_y': .4}
+        readonly: True
+        write_tab: False
+        on_touch_up: if self.focus: root.menu_open_category()
+
+    MDTextField:
+        id: autor
+        hint_text: "Autor"
+        pos_hint: {"center_y": .4}
+        max_text_length: 50
+        write_tab: False
+
+    MDTextField:
+        id: precio
+        hint_text: "Precio"
+        pos_hint: {"center_y": .4}
+        max_text_length: 50
+        write_tab: False
+
+    MDTextField:
+        id: descripcion
+        hint_text: "Descripcion"
+        pos_hint: {"center_y": .4}
+        multiline: True
+        write_tab: False
+
+    MDTextField:
+        id: idioma
+        hint_text: "Idioma"
+        pos_hint: {'center_y': .4}
+        readonly: True
+        write_tab: False
+        on_focus: if self.focus: root.menu_open_lang()
+
+    MDTextField:
+        id: imagen
+        hint_text: "Imagen (URL)"
+        pos_hint: {"center_y": .4}
+        write_tab: False
+
+    GridLayout:
+        rows: 1
+
+        MDTextField:
+            id: fecha
+            hint_text: "Fecha del libro"
+            pos_hint: {"center_y": .4}
+            max_text_length: 50
+            write_tab: False
+            #on_text_validate: (app.add_task(fecha, date_text.text), app.close_dialog())
+
+        MDIconButton:
+            icon: 'calendar'
+            padding: '10dp'
+            on_release: root.show_date_picker()
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRaisedButton:
+            text: "GUARDAR"
+            on_release: (app.add_book(titulo, categoria, autor, precio, descripcion, idioma, imagen, fecha), app.close_add_book_dialog())
+        MDWidget:
+        MDFlatButton:
+            text: "CANCELAR"
+            on_release: app.close_add_book_dialog()
+
+                    
