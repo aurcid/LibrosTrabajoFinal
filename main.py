@@ -122,7 +122,7 @@ class AddBookDialog(MDBoxLayout):
         date = value.strftime('%A %d %B %Y')
         self.ids.fecha.text = str(date)
 
-    def menu_open_category(self):
+    def menu_open_category(self, textfield):
         categorias_libros = [
             "Novela",
             "Realismo mágico",
@@ -143,12 +143,15 @@ class AddBookDialog(MDBoxLayout):
                 "on_release": lambda x=categorias: self.menu_callback(self.ids.categoria, x),
             } for categorias in categorias_libros
         ]
-        if not self.menu_dropdown:
-            self.menu_dropdown = MDDropdownMenu(
-                caller=self.ids.categoria, items=menu_items, position="bottom"
-            )
 
-            self.menu_dropdown.open()
+        self.menu_dropdown = MDDropdownMenu(
+            caller=self.ids.categoria, items=menu_items
+        )
+
+        self.menu_dropdown.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        Window.release_all_keyboards()
+
+        self.menu_dropdown.open()
 
     def menu_open_lang(self):
         menu_items = [
@@ -170,11 +173,13 @@ class AddBookDialog(MDBoxLayout):
             }
         ]
 
-        if not self.menu_dropdown:
-            self.menu_dropdown = MDDropdownMenu(
-                caller=self.ids.idioma, items=menu_items, position="top"
-            )
-            self.menu_dropdown.open()
+        self.menu_dropdown = MDDropdownMenu(
+            caller=self.ids.idioma, items=menu_items, position="center"
+        )
+
+        self.menu_dropdown.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        Window.release_all_keyboards()
+        self.menu_dropdown.open()
 
     def menu_callback(self, text_box, text_item):
         text_box.text = text_item
@@ -382,13 +387,15 @@ class MainApp(MDApp):
         self.manager.current = 'new_account_screen'
         self.dialog.dismiss()
 
-    def close_add_book_dialog(self):
-        app_screen = self.root.get_screen('app_screen')
-        app_screen.close_add_book_dialog()
+    def get_screen_instance(self, screen):
+        return self.root.get_screen(screen)
 
     def add_book(self, titulo, categoria, autor, precio, descripcion, idioma, imagen, fecha):
-        print(titulo.text, categoria.text, autor.text, precio.text,
-              descripcion.text, idioma.text, imagen.text, fecha.text)
+
+        empty = validate_empty(titulo, categoria, descripcion)
+
+        if empty:
+            return
 
         database.insert_book(titulo.text, autor.text, fecha.text, precio.text,
                              categoria.text, descripcion.text, idioma.text)
@@ -397,6 +404,8 @@ class MainApp(MDApp):
         grid = app_screen.ids.grid
         new_widget = MiCard(titulo.text, imagen.text)
         grid.add_widget(new_widget)
+
+        app_screen.close_add_book_dialog()
 
     def show_books(self, categoria):
         pass

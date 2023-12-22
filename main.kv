@@ -304,7 +304,7 @@
 
                 MDGridLayout:
                     id: grid
-                    cols: max(1, int(root.width / 400) if platform == 'android' else int(root.width / 300))
+                    cols: max(1, int(root.width / 700) if platform == 'android' else int(root.width / 300))
                     # md_bg_color: "white"
                     orientation: 'lr-tb'
                     size_hint_y: None
@@ -337,7 +337,7 @@
         pos_hint: {'center_y': .4}
         #readonly: True
         write_tab: False
-        on_focus: if self.focus: root.menu_open_category()
+        on_focus: if self.focus: root.menu_open_category(self)
 
     MDTextField:
         id: autor
@@ -395,10 +395,10 @@
 
         MDRaisedButton:
             text: "GUARDAR"
-            on_release: (app.add_book(titulo, categoria, autor, precio, descripcion, idioma, imagen, fecha), app.close_add_book_dialog())
+            on_release: app.add_book(titulo, categoria, autor, precio, descripcion, idioma, imagen, fecha)
         MDWidget:
         MDFlatButton:
             text: "CANCELAR"
-            on_release: app.close_add_book_dialog()
+            on_release: app.get_screen_instance('app_screen').close_add_book_dialog()
 
                     
