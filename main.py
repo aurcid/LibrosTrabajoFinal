@@ -1,4 +1,4 @@
-#Oe yaoggggg
+
 from datetime import datetime
 import sys
 import os
@@ -210,7 +210,7 @@ class FilterDialog(MDBoxLayout):
             } for categorias in categorias_libros
         ]
         self.menu_dropdown = MDDropdownMenu(
-            caller=self.ids.categoria_filter,
+            caller=self.ids.categoria,
             items=menu_items,
             position="bottom",
         )
