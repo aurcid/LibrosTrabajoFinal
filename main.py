@@ -114,7 +114,8 @@ class AddBookDialog(MDBoxLayout):
         super().__init__(**kwargs)
 
     def show_date_picker(self):
-        date_dialog = MDDatePicker()
+        date_dialog = MDDatePicker(
+            title="FECHA", title_input="INGRESA LA FECHA")
         date_dialog.bind(on_save=self.on_save)
         date_dialog.open()
 
