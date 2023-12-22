@@ -230,8 +230,8 @@ class FilterDialog(MDBoxLayout):
         self.app_screen_instance.close_filter_dialog()
 
     def show_all_books(self):
-        books = database.get_all_books()
-
+        app_screen = MDApp.get_running_app().root.get_screen('app_screen')
+        app_screen.show_all_books()
         self.app_screen_instance.close_filter_dialog()
 
 
@@ -477,9 +477,24 @@ class AppScreen(MDScreen):
             new_widget = MiCard(libro_id=book[0], titulo=titulo, imagen=imagen)
             grid.add_widget(new_widget)
 
+    def show_all_books(self):
+        books = database.get_all_books()
+        grid = self.ids.grid
+
+        grid.clear_widgets()
+
+        for book in books:
+            imagen = str(book[0]) + ".jpg"
+            titulo = book[1]
+            new_widget = MiCard(libro_id=book[0], titulo=titulo, imagen=imagen)
+            grid.add_widget(new_widget)
+
+        self.close_filter_dialog()
+
     def close_filter_dialog(self):
-        self._filter_dialog.dismiss()
-        self._filter_dialog = None
+        if self._filter_dialog is not None:
+            self._filter_dialog.dismiss()
+            self._filter_dialog = None
 
 
 class MainApp(MDApp):
