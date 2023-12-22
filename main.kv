@@ -209,6 +209,7 @@
         pos_hint: {"center_x": .5, "center_y": .5}
         size_hint: None, None
         size: root.width, root.height
+        on_release: root.open_book_information()
 
         MDLabel:
             text: root.titulo
@@ -407,4 +408,55 @@
             text: "CANCELAR"
             on_release: app.get_screen_instance('app_screen').close_add_book_dialog()
 
-                    
+
+<InformationBookDialog>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: "560dp"
+    spacing: 0
+
+    
+
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint: 1, 0.1
+
+        MDLabel:
+            markup: True
+            text: "[b]Categoria:[/b] " + root.categoria
+        MDLabel:
+            markup: True
+            text: "[b]Autor:[/b] " + root.autor
+
+        MDLabel:
+            markup: True
+            text: "[b]Fecha de publicación:[/b] " + root.fecha
+
+        MDLabel:
+            markup: True
+            text: "[b]Descripción:[/b] " + root.descripcion
+
+        MDLabel:
+            markup: True
+            text: "[b]Precio:[/b] " + root.precio
+
+        MDLabel:
+            markup: True
+            text: "[b]Idioma:[/b] " + root.idioma
+
+    AsyncImage:
+        source: root.imagen  
+        keep_ratio: True
+        allow_stretch: True
+        size_hint_y: None
+        height: dp(230)
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, None
+
+        MDRaisedButton:
+            text: "CERRAR"
+            size_hint: 1, None
+            pos_hint: {'center_x': 0.5,'center_y': 0.5}
+            on_release: root.instance.close_information_dialog()

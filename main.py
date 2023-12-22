@@ -224,6 +224,35 @@ class FilterDialog(MDBoxLayout):
         app_screen.close_filter_dialog()
 
 
+class InformationBookDialog(MDBoxLayout):
+    autor = StringProperty()
+    fecha = StringProperty()
+    precio = StringProperty()
+    categoria = StringProperty()
+    descripcion = StringProperty()
+    idioma = StringProperty()
+    imagen = StringProperty()
+
+    def __init__(self, instance=None, titulo=None, **kwargs):
+        super().__init__(**kwargs)
+        self.instance = instance
+        # (1, 'Don Quijote', 'Miguel de Cervantes', '1605-01-01 00:00:00', 15000.0, 'Novela', 'Don Quijote de la Mancha es una novela que satiriza las novelas de caballería y la sociedad de la época.', 'Español')
+        res = database.search_books(titulo)
+
+        self.autor = res[2]
+
+        fecha_str = res[3]
+        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+
+        self.fecha = str(fecha_obj.day) + "-" +\
+            str(fecha_obj.month) + "-" + str(fecha_obj.year)
+        self.precio = str(res[4]).split(".")[0]
+        self.categoria = res[5]
+        self.descripcion = res[6]
+        self.idioma = res[7]
+        self.imagen = "images/" + str(res[0]) + ".jpg"
+
+
 class MiCard(MDCard):
     titulo = StringProperty()
     autor = StringProperty()
@@ -233,6 +262,7 @@ class MiCard(MDCard):
     descripcion = StringProperty()
     idioma = StringProperty()
     imagen = StringProperty("images/default.jpg")
+    dialog_information = None
 
     def __init__(self, libro_id=None, titulo="", imagen="", **kwargs):
         super().__init__(**kwargs)
@@ -245,6 +275,19 @@ class MiCard(MDCard):
     def eliminar_libro(self, libro_id):
         database.delete_book(libro_id)
         self.parent.remove_widget(self)
+
+    def open_book_information(self):
+        if not self.dialog_information:
+            self.dialog_information = MDDialog(
+                title=self.titulo,
+                type="custom",
+                content_cls=InformationBookDialog(self, self.titulo),
+            )
+        self.dialog_information.open()
+
+    def close_information_dialog(self):
+        self.dialog_information.dismiss()
+        self.dialog_information = None
 
 
 class AppScreen(MDScreen):
