@@ -16,6 +16,8 @@ from kivy.utils import platform
 from kivy.core.window import Window
 from database import Database
 
+from img import download_save_images
+
 if hasattr(sys, '_MEIPASS'):
     os.environ['KIVY_NO_CONSOLELOG'] = '1'
 
@@ -237,8 +239,8 @@ class MiCard(MDCard):
         self.titulo = titulo
         self.libro_id = libro_id
 
-        if os.path.exists(imagen):
-            self.imagen = imagen
+        if os.path.exists("images/" + imagen):
+            self.imagen = "images/" + imagen
 
     def eliminar_libro(self, libro_id):
         database.delete_book(libro_id)
@@ -272,7 +274,7 @@ class AppScreen(MDScreen):
         grid = self.ids.grid
 
         for book in books:
-            imagen = "images/" + str(book[0]) + ".jpg"
+            imagen = str(book[0]) + '.jpg'
             titulo = book[1]
             new_widget = MiCard(libro_id=book[0], titulo=titulo, imagen=imagen)
             grid.add_widget(new_widget)
@@ -302,7 +304,7 @@ class AppScreen(MDScreen):
         grid.clear_widgets()
 
         for book in books:
-            imagen = "images/" + str(book[0]) + ".jpg"
+            imagen = str(book[0]) + ".jpg"
             titulo = book[1]
             new_widget = MiCard(libro_id=book[0], titulo=titulo, imagen=imagen)
             grid.add_widget(new_widget)
@@ -398,12 +400,15 @@ class MainApp(MDApp):
         if empty:
             return
 
-        database.insert_book(titulo.text, autor.text, fecha.text, precio.text,
-                             categoria.text, descripcion.text, idioma.text)
+        res = database.insert_book(titulo.text, autor.text, fecha.text, precio.text,
+                                   categoria.text, descripcion.text, idioma.text)
+
+        if imagen.text != "" and res:
+            download_save_images(imagen.text, 'images/', str(res))
 
         app_screen = self.root.get_screen('app_screen')
         grid = app_screen.ids.grid
-        new_widget = MiCard(titulo.text, imagen.text)
+        new_widget = MiCard(res, titulo.text, str(res) + '.jpg')
         grid.add_widget(new_widget)
 
         app_screen.close_add_book_dialog()

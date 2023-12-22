@@ -130,6 +130,11 @@ class Database:
         )
         self.con.commit()
 
+        book = self.search_books(titulo)
+
+        if book:
+            return book[0]
+
     def delete_book(self, book_id):
         self.cursor.execute("DELETE FROM libros WHERE id=?", (book_id,))
         self.con.commit()
@@ -152,7 +157,7 @@ class Database:
     def get_all_books(self):
         books = self.cursor.execute("SELECT * FROM libros").fetchall()
         return books
-    
+
     def get_books_by_category(self, categoria):
         books = self.cursor.execute(
             "SELECT * FROM libros WHERE categoria = ?",
