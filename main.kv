@@ -216,7 +216,7 @@
                 pos_hint: {"left": 1, "bottom": 1}
                 theme_icon_color: "Custom"
                 icon_color: "red"
-                on_release: root.eliminar_libro(root.libro_id)
+                on_release: app.show_dialog_delete_book(root.libro_id, root.titulo, root)
             MDIconButton:
                 icon: "pencil"
                 pos_hint: {"right": 1, "bottom": 1}

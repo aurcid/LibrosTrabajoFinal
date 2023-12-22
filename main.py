@@ -275,11 +275,39 @@ class MainApp(MDApp):
                         text="CANCELAR",
                         theme_text_color="Custom",
                         text_color=self.theme_cls.primary_color,
-                        on_release=lambda *args: self.dialog.dismiss()
+                        on_release=lambda *args: self.close_dialog()
                     ),
                 ],
             )
         self.dialog.open()
+
+    def show_dialog_delete_book(self, libro_id, titulo, instance):
+        if not self.dialog:
+            self.dialog = MDDialog(
+                title="Eliminar libro",
+                text=f"Estas eliminando el libro {titulo}, ¿quieres continuar?",
+                buttons=[
+                    MDFlatButton(
+                        text="ACEPTAR",
+                        md_bg_color="purple",
+                        theme_text_color="Custom",
+                        text_color="white",
+                        on_release=lambda *args: (instance.eliminar_libro(
+                            libro_id), self.close_dialog()),
+                    ),
+                    MDFlatButton(
+                        text="CANCELAR",
+                        theme_text_color="Custom",
+                        text_color=self.theme_cls.primary_color,
+                        on_release=lambda *args: self.close_dialog()
+                    ),
+                ],
+            )
+        self.dialog.open()
+
+    def close_dialog(self):
+        self.dialog.dismiss()
+        self.dialog = None
 
     def show_new_account_screen(self):
         self.manager.transition.direction = 'left'
