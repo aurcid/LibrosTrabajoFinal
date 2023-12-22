@@ -5,17 +5,17 @@ from PIL import Image
 
 
 def convertir_a_jpg(nombre_imagen):
-    print("el nomaaaaaaabre", nombre_imagen)
     try:
         imagen = Image.open("images/" + nombre_imagen)
 
-        nuevo_nombre = os.path.splitext(nombre_imagen)[0] + '.jpg'
+        nuevo_nombre = 'images/' + os.path.splitext(nombre_imagen)[0] + '.jpg'
 
-        imagen.convert('RGB').save("images/" + nuevo_nombre, 'JPEG')
+        imagen.convert('RGB').save(nuevo_nombre, 'JPEG')
 
         imagen.close()
 
-        os.remove("images/" + nombre_imagen)
+        if os.path.splitext(nombre_imagen)[1] != '.jpg':
+            os.remove("images/" + nombre_imagen)
 
         print(f'La imagen fue convertida y guardada como: {nuevo_nombre}')
 
@@ -36,9 +36,10 @@ def download_save_images(url, dest_folder, file_name):
                 extension = guess_extension(content_type.split(';')[0])
 
                 file_name_with_extension = f"{file_name}{extension}"
+                base_directory = os.getcwd()
 
                 ruta_completa = os.path.join(
-                    dest_folder, file_name_with_extension)
+                    base_directory, dest_folder, file_name_with_extension)
 
                 with open(ruta_completa, 'wb') as archivo:
                     archivo.write(respuesta.content)
