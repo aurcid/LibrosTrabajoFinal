@@ -441,6 +441,8 @@ class AppScreen(MDScreen):
         books = database.get_all_books()
         grid = self.ids.grid
 
+        grid.clear_widgets()
+
         for book in books:
             imagen = str(book[0]) + '.jpg'
             titulo = book[1]
