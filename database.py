@@ -152,6 +152,13 @@ class Database:
     def get_all_books(self):
         books = self.cursor.execute("SELECT * FROM libros").fetchall()
         return books
+    
+    def get_books_by_category(self, categoria):
+        books = self.cursor.execute(
+            "SELECT * FROM libros WHERE categoria = ?",
+            (categoria,)
+        ).fetchall()
+        return books
 
     def close_db_connection(self):
         self.con.close()
