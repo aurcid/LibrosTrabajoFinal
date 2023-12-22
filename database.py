@@ -9,7 +9,7 @@ class Database:
         self.create_user_table()
         self.create_books_table()
 
-        if not self.search_books("Don Quijote"):
+        if len(self.get_all_books()) == 0:
             self.inserts_books_by_default()
 
     def create_user_table(self):
