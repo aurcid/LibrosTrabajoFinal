@@ -388,7 +388,8 @@ class MainApp(MDApp):
                         md_bg_color="purple",
                         theme_text_color="Custom",
                         text_color="white",
-                        on_release=lambda *args: self.show_new_account_screen(),
+                        on_release=lambda *args: (
+                            self.show_new_account_screen(), self.close_dialog()),
                     ),
                     MDFlatButton(
                         text="CANCELAR",
