@@ -218,11 +218,13 @@ class FilterDialog(MDBoxLayout):
         self.menu_dropdown.open()
 
     def menu_callback(self, text_item):
+        if self.menu_dropdown:
+            self.menu_dropdown.dismiss()
+            self.menu_dropdown = None
+
         app_screen = MDApp.get_running_app().root.get_screen('app_screen')
         app_screen.show_books(text_item)
-        self.menu_dropdown.dismiss()
-        app_screen.close_filter_dialog()
-
+        self.app_screen_instance.close_filter_dialog()
 
 class InformationBookDialog(MDBoxLayout):
     autor = StringProperty()
@@ -456,9 +458,6 @@ class MainApp(MDApp):
         grid.add_widget(new_widget)
 
         app_screen.close_add_book_dialog()
-
-    def show_books(self, categoria):
-        pass
 
     def close_filter_dialog(self):
         app_screen = self.root.get_screen('app_screen')

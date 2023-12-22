@@ -170,27 +170,6 @@
         MDWidget:
             size_hint_y: 0.2
 
-<FilterDialog>:
-    orientation: "vertical"
-    size_hint: 1, None
-    height: "200dp"
-
-    BoxLayout:
-        size_hint_y: None
-        height: "200dp"
-
-    MDTextField:
-        id: categoria
-        hint_text: "Categoría"
-        halign: "center"
-        font_size: "32sp"
-        size_hint: 1, None
-        height: "75dp"
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        on_touch_up: if self.focus: root.menu_open_category()
-
-
-
 <MiCard>:
     size_hint_x: 0.3
     size_hint_y: None
@@ -324,7 +303,25 @@
         pos: root.width * 0.98 - self.width, root.height * 0.03
         on_release: root.show_add_book_dialog()
 
-          
+<FilterDialog>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: "200dp"
+
+    BoxLayout:
+        size_hint_y: None
+        height: "200dp"
+
+    MDTextField:
+        id: categoria
+        hint_text: "Categoría"
+        halign: "center"
+        font_size: "32sp"
+        size_hint: 1, None
+        height: "75dp"
+        pos_hint: {"center_x": 0.5, "center_y": 0.5}
+        on_touch_up: if self.focus: root.menu_open_category() 
+
 <AddBookDialog>:
     orientation: "vertical"
     size_hint: 1, None
