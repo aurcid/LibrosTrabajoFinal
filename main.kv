@@ -320,7 +320,14 @@
         size_hint: 1, None
         height: "75dp"
         pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        on_touch_up: if self.focus: root.menu_open_category() 
+        on_focus: if self.focus: root.menu_open_category() 
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRaisedButton:
+            text: "Quitar filtros"
+            on_release: root.show_all_books()
 
 <AddBookDialog>:
     orientation: "vertical"

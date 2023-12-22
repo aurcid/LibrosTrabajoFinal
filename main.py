@@ -226,6 +226,11 @@ class FilterDialog(MDBoxLayout):
         app_screen.show_books(text_item)
         self.app_screen_instance.close_filter_dialog()
 
+    def show_all_books(self):
+        books = database.get_all_books()
+
+        self.app_screen_instance.close_filter_dialog()
+
 class InformationBookDialog(MDBoxLayout):
     autor = StringProperty()
     fecha = StringProperty()
