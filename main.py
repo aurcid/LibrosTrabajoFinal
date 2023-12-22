@@ -216,6 +216,8 @@ class FilterDialog(MDBoxLayout):
             position="bottom",
         )
         self.menu_dropdown.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        Window.release_all_keyboards()
+
         self.menu_dropdown.open()
 
     def menu_callback(self, text_item):
