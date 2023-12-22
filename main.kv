@@ -311,23 +311,24 @@
     BoxLayout:
         size_hint_y: None
         height: "200dp"
+        orientation: "vertical"
 
-    MDTextField:
-        id: categoria
-        hint_text: "Categoría"
-        halign: "center"
-        font_size: "32sp"
-        size_hint: 1, None
-        height: "75dp"
-        pos_hint: {"center_x": 0.5, "center_y": 0.5}
-        on_focus: if self.focus: root.menu_open_category() 
+        MDTextField:
+            id: categoria
+            hint_text: "Categoría"
+            halign: "center"
+            font_size: "32sp"
+            size_hint: 1, None
+            height: "75dp"
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+            on_focus: if self.focus: root.menu_open_category() 
 
-    BoxLayout:
-        orientation: 'horizontal'
+        BoxLayout:
+            orientation: 'horizontal'
 
-        MDRaisedButton:
-            text: "Quitar filtros"
-            on_release: root.show_all_books()
+            MDRaisedButton:
+                text: "Quitar filtros"
+                on_release: root.show_all_books()
 
 <AddBookDialog>:
     orientation: "vertical"

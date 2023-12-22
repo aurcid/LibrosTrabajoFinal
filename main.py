@@ -215,6 +215,7 @@ class FilterDialog(MDBoxLayout):
             items=menu_items,
             position="bottom",
         )
+        self.menu_dropdown.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
         self.menu_dropdown.open()
 
     def menu_callback(self, text_item):
@@ -230,6 +231,7 @@ class FilterDialog(MDBoxLayout):
         books = database.get_all_books()
 
         self.app_screen_instance.close_filter_dialog()
+
 
 class InformationBookDialog(MDBoxLayout):
     autor = StringProperty()
