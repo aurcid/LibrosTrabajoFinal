@@ -173,25 +173,16 @@
 <FilterDialog>:
     orientation: "vertical"
     size_hint: 1, None
-    height: "550dp"
+    height: "200dp"
     spacing: 0
 
     MDTextField:
         id: categoria
         hint_text: "Categoría"
-        pos_hint: {'center_y': .4}
+        pos_hint: {"center_x": 0.5, "top": 1}
         readonly: True
         write_tab: False
         on_touch_up: if self.focus: root.menu_open_category()
-
-    BoxLayout:
-        orientation: 'horizontal'
-
-        MDRaisedButton:
-            text: "Volver"
-            on_release: app.close_filter_dialog()
-        
-
 
 
 <MiCard>:
