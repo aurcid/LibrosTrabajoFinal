@@ -217,7 +217,6 @@ class FilterDialog(MDBoxLayout):
         self.menu_dropdown.open()
 
     def menu_callback(self, text_item):
-        print("Categoría seleccionada:", text_item)
         self.menu_dropdown.dismiss()
 
 class MiCard(MDCard):
@@ -245,7 +244,6 @@ class MiCard(MDCard):
 
 class AppScreen(MDScreen):
     _add_book_dialog = None
-    _filtros_dialog = None
 
     def show_add_book_dialog(self):
         if not self._add_book_dialog:
@@ -285,13 +283,12 @@ class AppScreen(MDScreen):
         self._add_book_dialog.open()
 
     def show_filter_dialog(self):
-        if not self._filtros_dialog:
-            self._filtros_dialog = MDDialog(
-                title="Filtrar por Categoría",
-                type="custom",
-                content_cls=FilterDialog(),
-            )
-        self._filtros_dialog.open()
+        filter_dialog = MDDialog(
+            title="Filtrar por Categoría",
+            type="custom",
+            content_cls=FilterDialog(),
+        )
+        filter_dialog.open()
 
 
 class MainApp(MDApp):
@@ -392,6 +389,7 @@ class MainApp(MDApp):
     def close_filter_dialog(self):
         app_screen = self.root.get_screen('app_screen')
         app_screen.close_filter_dialog()
+
 
 
 MainApp().run()
