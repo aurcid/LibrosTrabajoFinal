@@ -2,3 +2,6 @@ __pycache__
 data.db
 .buildozer
 bin
+app.spec
+build
+dist

@@ -11,6 +11,26 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.widget import MDWidget
+from kivymd.uix.anchorlayout import MDAnchorLayout
+
+# ---
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.anchorlayout import AnchorLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+from kivy.uix.image import Image
+from kivy.uix.widget import Widget
+from kivymd.uix.card import MDCard
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.label import MDLabel
+from kivymd.uix.button import MDFlatButton, MDRectangleFlatButton, MDIconButton
+from kivymd.uix.widget import MDWidget
+from kivymd.uix.scrollview import MDScrollView
+from kivymd.uix.imagelist.imagelist import MDSmartTile
+# ---
+
 from kivymd.uix.screenmanager import MDScreenManager
 from kivymd.app import MDApp
 import os
@@ -252,9 +272,11 @@ class InformationBookDialog(MDBoxLayout):
 
         self.autor = res[2]
 
-        fecha_str = res[3]
-        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
-        fecha_final = fecha_obj.strftime("%A %d %B %Y")
+        fecha_final = res[3]
+        if res[3] != "":
+            fecha_str = res[3]
+            fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+            fecha_final = fecha_obj.strftime("%A %d %B %Y")
 
         self.fecha = fecha_final
         self.precio = str(res[4]).split(".")[0]
@@ -437,7 +459,7 @@ class AppScreen(MDScreen):
         self.manager.transition.direction = 'right'
         self.manager.current = "login_screen"
 
-    def on_pre_enter(self):
+    def on_enter(self):
         books = database.get_all_books()
         grid = self.ids.grid
 
@@ -515,7 +537,7 @@ class MainApp(MDApp):
         self.manager.add_widget(AppScreen(name='app_screen'))
         self.manager.add_widget(NewAccountScreen(name='new_account_screen'))
 
-        self.manager.current = "app_screen"
+        self.manager.current = "login_screen"
 
         return self.manager
 
