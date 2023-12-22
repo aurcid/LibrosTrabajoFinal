@@ -344,9 +344,9 @@
         id: categoria
         hint_text: "Categoria"
         pos_hint: {'center_y': .4}
-        readonly: True
+        #readonly: True
         write_tab: False
-        on_touch_up: if self.focus: root.menu_open_category()
+        on_focus: if self.focus: root.menu_open_category()
 
     MDTextField:
         id: autor
@@ -373,7 +373,7 @@
         id: idioma
         hint_text: "Idioma"
         pos_hint: {'center_y': .4}
-        readonly: True
+        #readonly: True
         write_tab: False
         on_focus: if self.focus: root.menu_open_lang()
 

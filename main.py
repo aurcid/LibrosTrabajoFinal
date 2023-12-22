@@ -1,4 +1,4 @@
-#Oe yaoggggg
+# Oe yaoggggg
 from datetime import datetime
 import sys
 import os
@@ -155,19 +155,19 @@ class AddBookDialog(MDBoxLayout):
         menu_items = [
             {
                 "text": "Español",
-                "on_release": lambda x=f"Español": self.menu_callback(self.ids.idioma, x),
+                "on_release": lambda x="Español": self.menu_callback(self.ids.idioma, x),
             },
             {
                 "text": "Ingles",
-                "on_release": lambda x=f"Ingles": self.menu_callback(self.ids.idioma, x),
+                "on_release": lambda x="Ingles": self.menu_callback(self.ids.idioma, x),
             },
             {
                 "text": "Alemán",
-                "on_release": lambda x=f"Aleman": self.menu_callback(self.ids.idioma, x),
+                "on_release": lambda x="Aleman": self.menu_callback(self.ids.idioma, x),
             },
             {
                 "text": "Portugués",
-                "on_release": lambda x=f"Portugues": self.menu_callback(self.ids.idioma, x),
+                "on_release": lambda x="Portugues": self.menu_callback(self.ids.idioma, x),
             }
         ]
 
@@ -181,6 +181,7 @@ class AddBookDialog(MDBoxLayout):
         text_box.text = text_item
         self.menu_dropdown.dismiss()
         self.menu_dropdown = None
+
 
 class FilterDialog(MDBoxLayout):
     menu_dropdown = None
@@ -219,6 +220,7 @@ class FilterDialog(MDBoxLayout):
     def menu_callback(self, text_item):
         print("Categoría seleccionada:", text_item)
         self.menu_dropdown.dismiss()
+
 
 class MiCard(MDCard):
     titulo = StringProperty()
