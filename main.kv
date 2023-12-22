@@ -181,6 +181,7 @@
     orientation: 'vertical'
 
     MDSmartTile:
+        id: smart_tile
         source: root.imagen
         radius: [10, 10, 0, 0]
         box_position: "header"
@@ -222,6 +223,7 @@
                 pos_hint: {"right": 1, "bottom": 1}
                 theme_icon_color: "Custom"
                 icon_color: "white"
+                on_release: root.open_edit_book_dialog()
             Widget:
     
 
@@ -364,6 +366,7 @@
         pos_hint: {"center_y": .4}
         max_text_length: 50
         write_tab: False
+        input_filter: "int"
 
     MDTextField:
         id: descripcion
@@ -413,6 +416,89 @@
             text: "CANCELAR"
             on_release: app.get_screen_instance('app_screen').close_add_book_dialog()
 
+<EditBookDialog>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: "550dp"
+    spacing: 0
+
+    MDTextField:
+        id: titulo
+        hint_text: "Titulo"
+        pos_hint: {"center_y": .4}
+        max_text_length: 50
+        write_tab: False
+
+    MDTextField:
+        id: categoria
+        hint_text: "Categoria"
+        pos_hint: {'center_y': .4}
+        #readonly: True
+        write_tab: False
+        on_focus: if self.focus: root.menu_open_category(self)
+
+    MDTextField:
+        id: autor
+        hint_text: "Autor"
+        pos_hint: {"center_y": .4}
+        max_text_length: 50
+        write_tab: False
+
+    MDTextField:
+        id: precio
+        hint_text: "Precio"
+        pos_hint: {"center_y": .4}
+        max_text_length: 50
+        write_tab: False
+        input_filter: "int"
+
+    MDTextField:
+        id: descripcion
+        hint_text: "Descripcion"
+        pos_hint: {"center_y": .4}
+        multiline: True
+        write_tab: False
+
+    MDTextField:
+        id: idioma
+        hint_text: "Idioma"
+        pos_hint: {'center_y': .4}
+        #readonly: True
+        write_tab: False
+        on_focus: if self.focus: root.menu_open_lang()
+
+    MDTextField:
+        id: imagen
+        hint_text: "Imagen (URL)"
+        pos_hint: {"center_y": .4}
+        write_tab: False
+
+    GridLayout:
+        rows: 1
+
+        MDTextField:
+            id: fecha
+            hint_text: "Fecha del libro"
+            pos_hint: {"center_y": .4}
+            max_text_length: 50
+            write_tab: False
+            #on_text_validate: (app.add_task(fecha, date_text.text), app.close_dialog())
+
+        MDIconButton:
+            icon: 'calendar'
+            padding: '10dp'
+            on_release: root.show_date_picker()
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRaisedButton:
+            text: "GUARDAR"
+            on_release: (app.update_book(root.book_id, titulo, categoria, autor, precio, descripcion, idioma, imagen, fecha), root.close_edit_book_dialog())
+        MDWidget:
+        MDFlatButton:
+            text: "CANCELAR"
+            on_release: root.close_edit_book_dialog()
 
 <InformationBookDialog>:
     orientation: "vertical"

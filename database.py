@@ -124,9 +124,13 @@ class Database:
             self.con.commit()
 
     def insert_book(self, titulo, autor, fecha, precio, categoria, descripcion, idioma):
+        fecha_original = fecha
+        fecha_objeto = datetime.strptime(fecha_original, "%A %d %B %Y")
+        fecha_final = fecha_objeto.strftime("%Y-%m-%d %H:%M:%S")
+
         self.cursor.execute(
             "INSERT INTO libros(titulo, autor, fecha, precio, categoria, descripcion, idioma) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            (titulo, autor, fecha, precio, categoria, descripcion, idioma)
+            (titulo, autor, fecha_final, precio, categoria, descripcion, idioma)
         )
         self.con.commit()
 
@@ -140,9 +144,13 @@ class Database:
         self.con.commit()
 
     def update_book(self, book_id, titulo, autor, fecha, precio, categoria, descripcion, idioma):
+        fecha_original = fecha
+        fecha_objeto = datetime.strptime(fecha_original, "%A %d %B %Y")
+        fecha_final = fecha_objeto.strftime("%Y-%m-%d %H:%M:%S")
+
         self.cursor.execute(
             "UPDATE libros SET titulo=?, autor=?, fecha=?, precio=?, categoria=?, descripcion=?, idioma=? WHERE id=?",
-            (titulo, autor, fecha, precio, categoria,
+            (titulo, autor, fecha_final, precio, categoria,
              descripcion, idioma, book_id)
         )
         self.con.commit()

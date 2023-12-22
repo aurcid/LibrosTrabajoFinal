@@ -1,22 +1,22 @@
-from datetime import datetime
-import sys
-import os
-from kivymd.app import MDApp
-from kivymd.uix.screenmanager import MDScreenManager
-from kivymd.uix.screen import MDScreen
-from kivymd.uix.button import MDFlatButton
-from kivymd.uix.dialog import MDDialog
-from kivymd.uix.boxlayout import MDBoxLayout
-from kivymd.uix.card import MDCard
-from kivymd.uix.pickers import MDDatePicker
-from kivymd.uix.menu import MDDropdownMenu
-from kivy.clock import Clock
-from kivy.properties import StringProperty
-from kivy.utils import platform
-from kivy.core.window import Window
-from database import Database
-
 from img import download_save_images
+from database import Database
+from kivy.core.window import Window
+from kivy.utils import platform
+from kivy.properties import StringProperty, NumericProperty
+from kivy.clock import Clock
+from kivymd.uix.menu import MDDropdownMenu
+from kivymd.uix.pickers import MDDatePicker
+from kivymd.uix.card import MDCard
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDFlatButton
+from kivymd.uix.screen import MDScreen
+from kivymd.uix.screenmanager import MDScreenManager
+from kivymd.app import MDApp
+import os
+import sys
+from datetime import datetime
+
 
 if hasattr(sys, '_MEIPASS'):
     os.environ['KIVY_NO_CONSOLELOG'] = '1'
@@ -254,14 +254,118 @@ class InformationBookDialog(MDBoxLayout):
 
         fecha_str = res[3]
         fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+        fecha_final = fecha_obj.strftime("%A %d %B %Y")
 
-        self.fecha = str(fecha_obj.day) + "-" +\
-            str(fecha_obj.month) + "-" + str(fecha_obj.year)
+        self.fecha = fecha_final
         self.precio = str(res[4]).split(".")[0]
         self.categoria = res[5]
         self.descripcion = res[6]
         self.idioma = res[7]
         self.imagen = "images/" + str(res[0]) + ".jpg"
+
+
+class EditBookDialog(MDBoxLayout):
+    book_id = NumericProperty()
+    menu_dropdown = None
+
+    def __init__(self, instance=None, titulo=None, **kwargs):
+        super().__init__(**kwargs)
+        self.instance = instance
+
+        res = database.search_books(titulo)
+
+        self.book_id = res[0]
+
+        self.ids.titulo.text = res[1]
+        self.ids.autor.text = res[2]
+
+        fecha_str = res[3]
+        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+        fecha_final = fecha_obj.strftime("%A %d %B %Y")
+
+        self.ids.fecha.text = fecha_final
+
+        self.ids.precio.text = str(res[4]).split(".")[0]
+        self.ids.categoria.text = res[5]
+        self.ids.descripcion.text = res[6]
+        self.ids.idioma.text = res[7]
+
+    def close_edit_book_dialog(self):
+        self.instance.dialog_edit.dismiss()
+
+    def show_date_picker(self):
+        date_dialog = MDDatePicker(
+            title="FECHA", title_input="INGRESA LA FECHA")
+        date_dialog.bind(on_save=self.on_save)
+        date_dialog.open()
+
+    def on_save(self, instance, value, date_range):
+        date = value.strftime('%A %d %B %Y')
+        self.ids.fecha.text = str(date)
+
+    def menu_open_category(self, textfield):
+        categorias_libros = [
+            "Novela",
+            "Realismo mágico",
+            "Fantasía",
+            "Thriller",
+            "Novela gótica",
+            "Novela histórica",
+            "Novela filosófica",
+            "Ciencia ficción",
+            "Misterio",
+            "Aventura",
+            "Biografía",
+            "Poesía"
+        ]
+        menu_items = [
+            {
+                "text": categorias,
+                "on_release": lambda x=categorias: self.menu_callback(self.ids.categoria, x),
+            } for categorias in categorias_libros
+        ]
+
+        self.menu_dropdown = MDDropdownMenu(
+            caller=self.ids.categoria, items=menu_items
+        )
+
+        self.menu_dropdown.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        Window.release_all_keyboards()
+
+        self.menu_dropdown.open()
+
+    def menu_open_lang(self):
+        menu_items = [
+            {
+                "text": "Español",
+                "on_release": lambda x="Español": self.menu_callback(self.ids.idioma, x),
+            },
+            {
+                "text": "Ingles",
+                "on_release": lambda x="Ingles": self.menu_callback(self.ids.idioma, x),
+            },
+            {
+                "text": "Alemán",
+                "on_release": lambda x="Aleman": self.menu_callback(self.ids.idioma, x),
+            },
+            {
+                "text": "Portugués",
+                "on_release": lambda x="Portugues": self.menu_callback(self.ids.idioma, x),
+            }
+        ]
+
+        self.menu_dropdown = MDDropdownMenu(
+            caller=self.ids.idioma, items=menu_items, position="center"
+        )
+
+        self.menu_dropdown.pos_hint = {'center_x': 0.5, 'center_y': 0.5}
+        Window.release_all_keyboards()
+        self.menu_dropdown.open()
+
+    def menu_callback(self, text_box, text_item):
+        text_box.text = text_item
+        self.menu_dropdown.dismiss()
+        self.menu_dropdown = None
 
 
 class MiCard(MDCard):
@@ -274,6 +378,7 @@ class MiCard(MDCard):
     idioma = StringProperty()
     imagen = StringProperty("images/default.jpg")
     dialog_information = None
+    dialog_edit = None
 
     def __init__(self, libro_id=None, titulo="", imagen="", **kwargs):
         super().__init__(**kwargs)
@@ -299,6 +404,15 @@ class MiCard(MDCard):
     def close_information_dialog(self):
         self.dialog_information.dismiss()
         self.dialog_information = None
+
+    def open_edit_book_dialog(self):
+        if not self.dialog_edit:
+            self.dialog_edit = MDDialog(
+                title=f"Modificar la información del libro {self.titulo}",
+                type="custom",
+                content_cls=EditBookDialog(self, self.titulo),
+            )
+        self.dialog_edit.open()
 
 
 class AppScreen(MDScreen):
@@ -471,6 +585,30 @@ class MainApp(MDApp):
     def close_filter_dialog(self):
         app_screen = self.root.get_screen('app_screen')
         app_screen.close_filter_dialog()
+
+    def update_book(self, book_id, titulo, categoria, autor, precio, descripcion, idioma, imagen, fecha):
+        print("update book", book_id)
+
+        app_screen = self.root.get_screen('app_screen')
+        widget_list = app_screen.ids.grid.children
+
+        empty = validate_empty(titulo, categoria, descripcion)
+
+        if empty:
+            return
+
+        database.update_book(book_id, titulo.text, autor.text, fecha.text,
+                             precio.text, categoria.text, descripcion.text, idioma.text)
+
+        if imagen.text != "":
+            download_save_images(imagen.text, 'images/', str(book_id))
+
+        widget_list[-book_id].titulo = titulo.text
+        widget_list[-book_id].imagen = "images/" + str(book_id) + ".jpg"
+        widget_list[-book_id].ids.smart_tile.source = "images/" + \
+            str(book_id) + ".jpg"
+
+        widget_list[-book_id].ids.smart_tile.ids.image.reload()
 
 
 MainApp().run()
