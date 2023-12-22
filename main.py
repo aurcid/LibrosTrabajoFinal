@@ -371,7 +371,7 @@ class EditBookDialog(MDBoxLayout):
 class MiCard(MDCard):
     titulo = StringProperty()
     autor = StringProperty()
-    anyo = StringProperty()
+    fecha = StringProperty()
     precio = StringProperty()
     categoria = StringProperty()
     descripcion = StringProperty()
@@ -408,7 +408,7 @@ class MiCard(MDCard):
     def open_edit_book_dialog(self):
         if not self.dialog_edit:
             self.dialog_edit = MDDialog(
-                title=f"Modificar la información del libro {self.titulo}",
+                title=f"Modificar la información del libro \"{self.titulo}\"",
                 type="custom",
                 content_cls=EditBookDialog(self, self.titulo),
             )
