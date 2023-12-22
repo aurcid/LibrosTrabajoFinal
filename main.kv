@@ -174,7 +174,7 @@
 <MiCard>:
     size_hint_x: 0.3
     size_hint_y: None
-    size: "200dp", "300dp"
+    size: "200dp", "340dp"
     pos_hint: {"center_x": 0.5, "center_y": 0.5}
     elevation: 0.6
     spacing: 0
@@ -288,7 +288,7 @@
 
                 MDGridLayout:
                     id: grid
-                    cols: max(1, int(root.width / 400) if platform == 'android' else int(root.width / 250))
+                    cols: max(1, int(root.width / 400) if platform == 'android' else int(root.width / 300))
                     # md_bg_color: "white"
                     orientation: 'lr-tb'
                     size_hint_y: None
