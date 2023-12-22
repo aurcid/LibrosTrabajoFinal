@@ -170,6 +170,29 @@
         MDWidget:
             size_hint_y: 0.2
 
+<FilterDialog>:
+    orientation: "vertical"
+    size_hint: 1, None
+    height: "550dp"
+    spacing: 0
+
+    MDTextField:
+        id: categoria
+        hint_text: "Categoría"
+        pos_hint: {'center_y': .4}
+        readonly: True
+        write_tab: False
+        on_touch_up: if self.focus: root.menu_open_category()
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+        MDRaisedButton:
+            text: "GUARDAR"
+            on_release: (app.search_books(categoria), app.close_add_book_dialog())
+        
+
+
 
 <MiCard>:
     size_hint_x: 0.3

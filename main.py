@@ -245,6 +245,7 @@ class MiCard(MDCard):
 
 class AppScreen(MDScreen):
     _add_book_dialog = None
+    _filtros_dialog = None
 
     def show_add_book_dialog(self):
         if not self._add_book_dialog:
@@ -284,12 +285,13 @@ class AppScreen(MDScreen):
         self._add_book_dialog.open()
 
     def show_filter_dialog(self):
-        filter_dialog = MDDialog(
-            title="Filtrar por Categoría",
-            type="custom",
-            content_cls=FilterDialog(),
-        )
-        filter_dialog.open()
+        if not self._filtros_dialog:
+            self._filtros_dialog = MDDialog(
+                title="Filtrar por Categoría",
+                type="custom",
+                content_cls=FilterDialog(),
+            )
+        self._filtros_dialog.open()
 
 
 class MainApp(MDApp):
@@ -383,6 +385,13 @@ class MainApp(MDApp):
         grid = app_screen.ids.grid
         new_widget = MiCard(titulo.text, imagen.text)
         grid.add_widget(new_widget)
+
+    def search_books(self, categoria):
+        pass
+
+    def close_filter_dialog(self):
+        app_screen = self.root.get_screen('app_screen')
+        app_screen.close_filter_dialog()
 
 
 MainApp().run()
