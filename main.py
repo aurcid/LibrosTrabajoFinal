@@ -301,9 +301,11 @@ class EditBookDialog(MDBoxLayout):
         self.ids.titulo.text = res[1]
         self.ids.autor.text = res[2]
 
-        fecha_str = res[3]
-        fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
-        fecha_final = fecha_obj.strftime("%A %d %B %Y")
+        fecha_final = ""
+        if res[3] != "":
+            fecha_str = res[3]
+            fecha_obj = datetime.strptime(fecha_str, "%Y-%m-%d %H:%M:%S")
+            fecha_final = fecha_obj.strftime("%A %d %B %Y")
 
         self.ids.fecha.text = fecha_final
 
